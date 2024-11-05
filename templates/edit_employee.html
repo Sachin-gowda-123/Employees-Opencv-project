@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Employee</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            background-color: #f0f4f7;
+        }
+
+        .video-background {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%; 
+            min-height: 100%;
+            z-index: -1;
+            object-fit: cover;
+            filter: brightness(0.7);
+        }
+
+        .container {
+            width: 85%;
+            max-width: 320px; /* Reduced form width */
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px; /* Slightly reduced padding */
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin: 0;
+            font-size: 18px; /* Reduced font size */
+            letter-spacing: 1.2px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            margin-bottom: 8px;
+            color: #34495e;
+            font-weight: bold;
+            font-size: 13px; /* Reduced font size */
+            width: 100%;
+            text-align: left;
+        }
+
+        input {
+            padding: 8px; /* Reduced padding */
+            margin-bottom: 12px;
+            border: 1.5px solid #3498db;
+            border-radius: 5px;
+            font-size: 13px; /* Reduced font size */
+            width: 100%;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #2980b9;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            padding: 8px; /* Reduced button size */
+            background-color: #1abc9c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 13px; /* Reduced font size */
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #16a085;
+            transform: translateY(-2px);
+        }
+
+        .back-btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .back-btn {
+            padding: 8px 18px; /* Reduced button size */
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+
+        /* Employee image styling for square shape */
+        .employee-image-container {
+            margin-left: 10px; /* Reduced margin */
+        }
+
+        .employee-img {
+            width: 75px; /* Reduced size for square image */
+            height: 75px; /* Reduced size */
+            object-fit: cover;
+            border-radius: 10px; /* Square image with rounded corners */
+            border: 3px solid #3498db;
+            padding: 3px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .employee-img:hover {
+            transform: scale(1.05);
+        }
+
+        .no-img-text {
+            color: #555;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Background video element -->
+    <video autoplay muted loop class="video-background">
+        <source src="https://videos.pexels.com/video-files/3129576/3129576-uhd_2560_1440_30fps.mp4" type="video/webm">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="container">
+        <div class="header-container">
+            <h1>Edit Employee</h1>
+            <div class="employee-image-container">
+                {% if employee.face_image %}
+                    <img src="{{ employee.face_image.url }}" alt="Employee Image" class="employee-img">
+                {% else %}
+                    <p class="no-img-text">No image available</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <form method="post" action="{% url 'edit_employee' employee.empid %}">
+            {% csrf_token %}
+            <label for="empid">Employee ID:</label>
+            <input type="text" id="empid" name="empid" value="{{ employee.empid }}" readonly>
+
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="{{ employee.name }}" required>
+
+            <label for="department">Department:</label>
+            <input type="text" id="department" name="department" value="{{ employee.department }}" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="{{ employee.email }}" required>
+
+            <label for="mobile">Mobile:</label>
+            <input type="text" id="mob" name="mobile" value="{{ employee.mob }}" required>
+
+            <button type="submit">Save Changes</button>
+        </form>
+
+        <div class="back-btn-container">
+            <a href="{% url 'employee_list' %}" class="back-btn">Back</a>
+        </div>
+    </div>
+</body>
+</html>

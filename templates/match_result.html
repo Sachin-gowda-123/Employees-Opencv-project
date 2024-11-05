@@ -1,0 +1,20 @@
+<!-- match_result.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Match Result</title>
+</head>
+<body>
+    {% if attendance_marked %}
+        <h1>Attendance Marked for {{ matched_employee.name }}</h1>
+        <p>Department: {{ matched_employee.department }}</p>
+        <p>Confidence: {{ confidence }}</p>
+        <img src="{{ matched_employee.photo.url }}" alt="Matched Employee Photo">
+    {% else %}
+        <h1>Employee Not Recognized</h1>
+        <p>This image does not belong to any registered employee in the company.</p>
+        <p>Confidence: {{ confidence }}</p>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Employee</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Style for the background video */
+        video.bg-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1; /* Place it behind other content */
+            object-fit: cover;
+            filter: brightness(50%); /* Optional: darken the video for contrast */
+        }
+
+        /* Fancy container style with glassmorphism */
+        .container {
+            width: 80%;
+            max-width: 400px; /* Smaller form size */
+            background: rgba(255, 255, 255, 0.2); /* Glass effect */
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); /* Softer shadow */
+            backdrop-filter: blur(10px); /* Add blur for glassmorphism */
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            z-index: 1;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffffff; /* White for contrast */
+            font-size: 26px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        /* Smaller input fields */
+        input {
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 14px;
+            background-color: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Stylish submit button */
+        button.submit-btn {
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s;
+            margin-bottom: 15px;
+        }
+
+        button.submit-btn:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        /* Centered back button with softer style */
+        .back-btn-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .back-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: background-color 0.3s ease, transform 0.2s;
+        }
+
+        .back-btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background video -->
+    <video class="bg-video" autoplay muted loop>
+        <source src="https://media.istockphoto.com/id/1492559324/video/emerging-financial-data-stock-market-recession-bear-market-loopable-background-animation-blue.mp4?s=mp4-640x640-is&k=20&c=Z8XVViC4NwoOSA8A-p3uVUzc30oyrI8Pctan6mQsiwU=" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="container">
+        <h1>Add Employee</h1>
+        <form method="post" action="{% url 'add_employee' %}">
+            {% csrf_token %}
+            <label for="empid">Employee ID:</label>
+            <input type="text" id="empid" name="empid" required>
+
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="department">Department:</label>
+            <input type="text" id="department" name="department" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="mobile">Mobile:</label>
+            <input type="text" id="mobile" name="mobile" required>
+
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+        <!-- Centered Back button -->
+        <div class="back-btn-container">
+            <a href="{% url 'employee_list' %}" class="back-btn">Back</a>
+        </div>
+    </div>
+
+</body>
+</html>

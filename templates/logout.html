@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Logout</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Background video styling */
+        .video-background {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%; 
+            min-height: 100%;
+            z-index: -1;
+            object-fit: cover;
+            filter: brightness(0.7);
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.95); /* Slightly less transparent for more contrast */
+            padding: 30px;
+            border-radius: 15px; /* More rounded corners for a modern look */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); /* Larger shadow for depth */
+            width: 350px;
+            max-width: 90%; /* Responsive width */
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        h2 {
+            color: #2c3e50;
+            font-size: 26px; /* Larger font size */
+            margin-bottom: 20px;
+            font-weight: 600; /* Bolder font weight */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 12px;
+            font-size: 16px; /* Larger font size */
+            color: #34495e;
+            font-weight: 500; /* Slightly bolder labels */
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px; /* Increased padding */
+            font-size: 16px; /* Larger font size */
+            border: 1px solid #bdc3c7;
+            border-radius: 8px; /* Slightly more rounded corners */
+            margin-bottom: 20px; /* Increased margin */
+            box-sizing: border-box;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for input fields */
+        }
+
+        button {
+            padding: 10px 15px; /* Increased padding */
+            font-size: 14px; /* Larger font size */
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px; /* More rounded corners */
+            cursor: pointer;
+            width: 85%; /* Slightly wider button */
+            margin-bottom: 12px; /* Increased margin */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        /* Back button styling */
+        .back-button {
+            background-color: #e74c3c;
+            padding: 6px 10px; /* Reduced padding for smaller button */
+            font-size: 12px; /* Reduced font size */
+            width: auto; /* Automatic width to fit content */
+        }
+
+        .back-button:hover {
+            background-color: #c0392b;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .container {
+                width: 95%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background video element -->
+    <video autoplay muted loop class="video-background">
+        <source src="https://videos.pexels.com/video-files/3968204/3968204-hd_1920_1080_24fps.mp4" type="video/webm">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="container">
+        <h2>Employee Logout</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <label for="empid">Employee ID:</label>
+            <input type="text" id="empid" name="empid" required>
+            <button type="submit">Logout</button>
+        </form>
+        
+        <!-- Back Button -->
+        <form action="{% url 'home' %}">
+            <button type="submit" class="back-button">Back</button>
+        </form>
+    </div>
+
+</body>
+</html>

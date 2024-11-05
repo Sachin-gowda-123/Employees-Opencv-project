@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    {% load static %}
+    <style>
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #000428, #004e92); /* A dark-to-blue gradient */
+        }
+
+        /* Video background styling */
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+            object-fit: cover;
+            filter: brightness(40%) contrast(120%); /* Darkens and adds contrast to the video */
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.5)); /* Transparent dark diagonal gradient */
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+            animation: slideIn 1s ease-out;
+            z-index: 1;
+        }
+
+        .login-container h1 {
+            font-size: 2.5rem;
+            color: #ffffff; /* White text */
+            margin-bottom: 30px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: fadeIn 2s ease-in-out, pulse 1.5s infinite;
+            background: -webkit-linear-gradient(45deg, #00FF7F, #00BFFF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-container label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .login-container input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1); /* More transparent input fields */
+            color: #ffffff;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .login-container input:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.2); /* Slightly lighter background on focus */
+            box-shadow: 0 0 15px rgba(0, 255, 127, 0.7);
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #00BFFF, #00FF7F); /* Gradient button */
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.5);
+        }
+
+        .login-container button:hover {
+            transform: scale(1.05);
+            background: linear-gradient(90deg, #00FF7F, #00BFFF); /* Reversed gradient on hover */
+            box-shadow: 0 6px 20px rgba(0, 255, 255, 0.8);
+        }
+
+        .login-container .home-button {
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .login-container .home-button button {
+            background-color: #cccccc;
+            color: #333;
+        }
+
+        .login-container .home-button button:hover {
+            background-color: #ffffff;
+            color: #000;
+            transform: translateY(-2px);
+        }
+
+        /* Error Message */
+        .message.error {
+            color: #ff3333;
+            background-color: rgba(255, 100, 100, 0.4);
+            border: 2px solid #ff3333;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        /* Success Message */
+        .message.success {
+            color: #33ff33;
+            background-color: rgba(100, 255, 100, 0.4);
+            border: 2px solid #33ff33;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+
+        .message {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+            width: 100%;
+            max-width: 300px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background video -->
+    <video class="background-video" autoplay muted loop>
+        <source src="https://videos.pexels.com/video-files/853844/853844-sd_640_360_25fps.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="login-container">
+        <h1>Admin Login</h1>
+        {% if messages %}
+            <div>
+                {% for message in messages %}
+                    <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+                        <h3><b>{{ message }}</b></h3>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form method="post" action="{% url 'admin_login' %}">
+            {% csrf_token %}
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit"><b>Login</b></button>
+        </form>
+        <a href="{% url 'home' %}" class="home-button">
+            <button><b>Home</b></button>
+        </a>
+    </div>
+</body>
+</html>

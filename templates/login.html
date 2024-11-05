@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Info</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #ffffff;
+            overflow: hidden;
+            background-color: #000; /* Fallback background color */
+        }
+
+        /* Background video */
+        .video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .video-container video {
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+            filter: brightness(50%);
+        }
+
+        /* Login container styling */
+        .login-container {
+            background-color: rgba(25, 25, 25, 0.85); /* Dark semi-transparent */
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            width: 350px;
+            text-align: center;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            color: #e0e0e0;
+            font-size: 28px; /* Updated font size */
+            font-weight: bold;
+            letter-spacing: 2px; /* Updated letter spacing */
+            font-family: 'Roboto', sans-serif; /* Updated font family */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Optional text shadow for better readability */
+        }
+
+        /* Fascinating Button Styles */
+        button {
+            background-image: linear-gradient(45deg, #1e90ff, #00bfff); /* Blue gradient */
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+            transition: background-image 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-image: linear-gradient(45deg, #87cefa, #00bfff); /* Lighter blue gradient */
+            transform: translateY(-2px);
+        }
+
+        /* Register Button */
+        .register-button {
+            background-image: linear-gradient(45deg, #a4508b, #5f0a87); /* Purple to pink gradient */
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+            transition: background-image 0.3s ease, transform 0.2s ease;
+        }
+
+        .register-button:hover {
+            background-image: linear-gradient(45deg, #ff77cd, #f15bb5); /* Brighter purple gradient */
+            transform: translateY(-2px);
+        }
+
+        /* Back Button */
+        .back-button {
+            background-image: linear-gradient(45deg, #d62828, #f94144); /* Dark red to bright red */
+            color: white;
+            padding: 8px 12px; /* Smaller size */
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 60%; /* Smaller width */
+            margin-top: 15px;
+            font-size: 14px; /* Smaller font */
+            font-weight: bold;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+            transition: background-image 0.3s ease, transform 0.2s ease;
+        }
+
+        .back-button:hover {
+            background-image: linear-gradient(45deg, #f94144, #f3722c); /* Brighter red gradient */
+            transform: translateY(-2px);
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            box-sizing: border-box;
+            border-radius: 6px;
+            border: 1px solid #444;
+            background-color: #2c3e50;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        input[type="text"]::placeholder {
+            color: #7f8c8d;
+        }
+
+        input[type="text"]:focus {
+            border-color: #1e90ff;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Video Background -->
+    <div class="video-container">
+        <video autoplay muted loop>
+            <source src="https://videos.pexels.com/video-files/2792370/2792370-sd_640_360_30fps.mp4" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+    </div>
+
+    <!-- Login Container -->
+    <div class="login-container">
+        <h2>Employee Info</h2>
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <!-- Login Form -->
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            <input type="text" id="empid" name="empid" placeholder="Employee ID" required>
+            <button type="submit">Login</button>
+        </form>
+
+        {% comment %} <!-- Register Button -->
+        <form action="{% url 'register' %}">
+            <button type="submit" class="register-button">New Register</button>
+        </form> {% endcomment %}
+
+        <!-- Back Button -->
+        <form action="{% url 'home' %}">
+            <button type="submit" class="back-button">Home</button>
+        </form>
+    </div>
+
+</body>
+</html>

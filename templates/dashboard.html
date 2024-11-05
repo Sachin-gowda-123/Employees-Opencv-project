@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Add background video */
+        #bg-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px;
+            display: flex;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 25%;
+            background-color: #28a745; /* Change sidebar background to green */
+            color: white;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #006f3d; /* Green color for buttons */
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background-color: #00502b; /* Darker green on hover */
+        }
+
+        .main-content {
+            width: 75%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #007bff;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .metrics, .recent-activities, .employee-summary {
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .metrics {
+            background-color: #e9f5ff; /* Light blue */
+            border-left: 5px solid #007bff;
+            padding: 15px;
+        }
+
+        .recent-activities {
+            background-color: #f7f7f7; /* Light grey */
+            border-left: 5px solid #6c757d;
+            padding: 15px;
+        }
+
+        .employee-summary {
+            background-color: #e9f7f2; /* Light green */
+            border-left: 5px solid #28a745;
+            padding: 15px;
+        }
+
+        .metrics h2, .recent-activities h2, .employee-summary h2 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .metrics div, .recent-activities div, .employee-summary div {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn-container a {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-container a:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .btn-container a:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+    <video id="bg-video" autoplay muted loop>
+        <source src="https://cdn.pixabay.com/video/2023/11/14/189150-884987199_large.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="container">
+        <div class="sidebar">
+            <a href="{% url 'login' %}">Login</a> <!-- New Login Button -->
+            <a href="{% url 'admin_login' %}">Admin Login</a> <!-- New Admin Login Button -->
+
+            <a href="{% url 'employee_list' %}">View Employees</a>
+            <a href="{% url 'add_employee' %}">Add Employee</a>
+            {% comment %} <a href="{% url 'login' %}">Login</a> <!-- New Login Button --> {% endcomment %}
+            {% comment %} <a href="{% url 'admin_login' %}">Admin Login</a> <!-- New Admin Login Button --> {% endcomment %}
+            {% comment %} <a href="{% url 'attendance_records' %}">View Attendance</a> {% endcomment %}
+            {% comment %} <a href="{% url 'system_logs' %}">System Logs</a> {% endcomment %}
+        </div>
+        <div class="main-content">
+            <h1>Dashboard</h1>
+            <div class="btn-container">
+                <a href="{% url 'employee_list' %}">View Employees</a>
+                <a href="{% url 'add_employee' %}">Add Employee</a>
+            </div>
+            <div class="metrics">
+                <h2>Overview</h2>
+                <div>Total Employees: <strong>{{ total_employees }}</strong></div>
+                <div>Total Attendance Records: <strong>{{ total_attendance }}</strong></div>
+                {% comment %} <div>Recent Face Recognition Activities: <strong>{{ recent_activities }}</strong></div> {% endcomment %}
+            </div>
+
+            <div class="recent-activities">
+                <h2>Recent Activities</h2>
+                {% for activity in activities %}
+                <div> 
+                    <p>{{ activity.timestamp }} - {{ activity.description }}</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="employee-summary">
+                <h2>Employee Summary</h2>
+                {% for employee in employees %}
+                <div>
+                    <p>ID: <strong>{{ employee.empid }}</strong> - Name: <strong>{{ employee.name }}</strong></p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
